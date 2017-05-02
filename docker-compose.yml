@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  sonarqube_db_service:
+    image: mysql:5.7.18
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root2017!
+      MYSQL_USER: sonarqube
+      MYSQL_PASSWORD: sonarqube2017!
+      MYSQL_DATABASE: sonarqube
+
+  sonarqube_service:
+    image: sonarqube:6.3.1
+    ports:
+      - "9000:9000"
+      - "9092:9092"
+    environment:
+      SONARQUBE_JDBC_USERNAME: sonarqube
+      SONARQUBE_JDBC_PASSWORD: sonarqube2017!
+      SONARQUBE_JDBC_URL: "jdbc:mysql://sonardb:3306/sonarqube?useUnicode=true&characterEncoding=utf8"
+    links:
+      - sonarqube_db_service:sonardb
